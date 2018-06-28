@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+ http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+ 
+ 	
+ 	<context:component-scan base-package="com.EventArgs.ClientRequests.Controllers"></context:component-scan>
+ 	<mvc:annotation-driven></mvc:annotation-driven>
+ 	<!-- <mvc:cors>
+	<mvc:mapping path="*/EventArgs/*"
+		allowed-origins="http://192.168.0.12:8887"
+		allowed-methods="POST, GET, PUT, OPTIONS, DELETE"
+		allowed-headers="Content-Type"
+		exposed-headers="custom-header1, custom-header2"
+		allow-credentials="false"
+		max-age="4800" />
+    </mvc:cors> -->
+ 	
+	
+	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+            <value>/WebContent/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean> -->
+    
+    <bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/eventargs" />
+		<property name="username" value="Roshan Sunaina" />
+		<property name="password" value="All my Databases 123$#" />
+	</bean>
+    
+    
+    <!-- DAO Layer -->
+	<bean id="RegisterDAO" class="com.EventArgs.Database.DAO.RegisterDAO">
+		<property name = "datasource" ref="datasource"></property>
+	</bean>
+	<bean id = "MainEventTypeDAO" class = "com.EventArgs.Database.DAO.MainEventTypeDAO">
+		<property name = "datasource" ref = "datasource"></property>
+	</bean>
+	<bean id = "SubEventTypesDAO" class = "com.EventArgs.Database.DAO.SubEventTypesDAO">
+		<property name = "datasource" ref = "datasource"></property>
+	</bean>
+	<bean id = "CreateNewEventDAO" class = "com.EventArgs.Database.DAO.CreateNewEventDAO">
+		<property name = "datasource" ref = "datasource"></property>
+	</bean>
+	<bean id = "MyEventsDAO" class = "com.EventArgs.Database.DAO.MyEventsDAO">
+		<property name = "datasource" ref = "datasource"></property>
+	</bean>
+	<bean id = "AddShopDAO" class = "com.EventArgs.Database.DAO.AddShopDAO">
+		<property name = "datasource" ref = "datasource"></property>
+	</bean>
+	<bean id = "AddAddressDAO" class = "com.EventArgs.Database.DAO.AddAddressDAO">
+		<property name = "datasource" ref = "datasource"></property>
+	</bean>
+	<bean id = "LoginDAO" class = "com.EventArgs.Database.DAO.LoginDAO">
+		<property name = "datasource" ref = "datasource"></property>
+	</bean>
+	<bean id = "SearchDAO" class = "com.EventArgs.Database.DAO.SearchDAO">
+		<property name = "datasource" ref = "datasource"></property>
+	</bean>
+	 
+	<!-- Validation -->
+	<bean id = "validation" class = "com.EventArgs.Database.Validations.ValidateUserRequests">
+		<property name = "datasource" ref = "datasource"></property>
+	</bean>
+	<bean id = "ValidateShopOwnerRequests" class = "com.EventArgs.Database.Validations.ValidateShopOwnerRequests">
+		<property name = "datasource" ref = "datasource"></property>
+	</bean>
+	
+	<!-- Service -->
+	<bean id = "registerService" class="com.EventArgs.Logic.Services.RegisterService">
+		<property name = "registerDao" ref="RegisterDAO"></property>
+	</bean>
+	<bean id = "mainEventTypeService" class="com.EventArgs.Logic.Services.MainEventTypeService">
+		<property name = "mainEventTypeDAO" ref = "MainEventTypeDAO"></property>
+	</bean>
+	<bean id = "subEventTypeService" class = "com.EventArgs.Logic.Services.SubEventTypesService">
+		<property name = "subEventTypesDAO" ref = "SubEventTypesDAO"></property>
+	</bean>
+	<bean id = "createNewEventService" class = "com.EventArgs.Logic.Services.CreateNewEventService">
+		<property name = "createNewEventDAO" ref = "CreateNewEventDAO"></property>
+	</bean>
+	<bean id = "myEventService" class = "com.EventArgs.Logic.Services.MyEventsService">
+		<property name = "myEventsDAO" ref = "MyEventsDAO"></property>
+	</bean>
+	<bean id = "addShopService" class = "com.EventArgs.Logic.Services.AddShopService">
+		<property name = "addShopDAO" ref = "AddShopDAO"></property>
+	</bean>
+    <bean id = "addAddressService" class = "com.EventArgs.Logic.Services.AddAddressService">
+    	<property name = "addAddressDAO" ref = "AddAddressDAO"></property>
+    </bean>
+    <bean id = "loginService" class = "com.EventArgs.Logic.Services.LoginService">
+    	<property name = "loginDAO" ref = "LoginDAO"></property>
+    </bean>
+     <bean id = "searchService" class = "com.EventArgs.Logic.Services.SearchService">
+    	<property name = "searchDAO" ref = "SearchDAO"></property>
+    	<property name="validation" ref = "validation"></property>
+    </bean>
+    
+ </beans>
